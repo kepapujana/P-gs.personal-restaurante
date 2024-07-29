@@ -1,15 +1,17 @@
 import React, { useState } from 'react'
 
-const Contact = () => {
+const Reserve = () => {
     const name = document.getElementById('nombre')
-    const email = document.getElementById('correo')
+    const fecha = document.getElementById('fecha')
+    const hora = document.getElementById('hora')
     const userInfo = document.getElementById('content')
 
 
     const [data, setData] = 
     useState({
         name: '',
-        email: '',
+        fecha: '',
+        hora: '',
     })
 
     const [btnDisabled, setBtnDisabled] = useState(true)
@@ -18,7 +20,8 @@ const Contact = () => {
     //ESTADO INICIAL, CASILLAS
     const initialState = {
         name: '',
-        email: '',
+        fecha: '',
+        hora: '',
     }
        
     const clearState = () => {
@@ -29,11 +32,11 @@ const Contact = () => {
     const handleSubmit = (event) => {
         event.preventDefault()
         clearState()
-        console.log(`sending data… ${data.name} ${data.email}`)
+        console.log(`sending data… ${data.name} ${data.fecha} ${data.hora}`)
 
         saveDataStorage()
         const userFromStorage = JSON.parse(localStorage.getItem('userName'))
-        userInfo.innerHTML = `<p>Hola ${userFromStorage.name} tu mail es ${userFromStorage.email}</p>`
+        userInfo.innerHTML = `<p>Hola ${userFromStorage.name} tu reserva es el ${userFromStorage.fecha} a las ${userFromStorage.hora}</p>`
         console.log(userFromStorage);
     } 
 
@@ -41,7 +44,8 @@ const Contact = () => {
     function saveDataStorage() {
         localStorage.setItem('userName', JSON.stringify({
             name: name.value,
-            email: email.value,
+            fecha: fecha.value,
+            hora: hora.value,
         }))
     }
 
@@ -67,7 +71,7 @@ const Contact = () => {
     
     return (
         <>
-            <h2>Contact</h2>
+            <h2>Reserva</h2>
             <div id="content"></div>
             <form onSubmit={handleSubmit}>
                 <input
@@ -79,12 +83,20 @@ const Contact = () => {
                     id="nombre"
                 />
                 <input
-                    type="email"
-                    placeholder="email"
-                    value={data.email}
+                    type="date"
+                    placeholder="data"
+                    value={data.fecha}
                     onChange={handleInputChange}
-                    name="email"
-                    id="correo"
+                    name="fecha"
+                    id="fecha"
+                />
+                <input
+                    type="time"
+                    placeholder="time"
+                    value={data.time}
+                    onChange={handleInputChange}
+                    name="hora"
+                    id="hora"
                 />
                 <button type="submit" disabled={btnDisabled}>Enviar</button>
                 <p>{message}</p>
@@ -93,4 +105,4 @@ const Contact = () => {
     )
 }
 
-export default Contact
+export default Reserve
